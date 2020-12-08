@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const { postRegister } = require('../controllers/index'); 
+
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -11,9 +13,8 @@ router.get('/register',(req,res,next)=>{
   res.send('GET /REGISTER')
 })
 
-router.post('/register',(req,res,next)=>{
-  res.send('post /REGISTER')
-})
+router.post('/register',postRegister)
+
 
 router.get('/login',(req,res,next)=>{
   res.send('get /login')
