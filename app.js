@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const methdoOverride  = require('method-override')
 
 
 const bodyParser = require('body-parser')
@@ -42,6 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methdoOverride('_method'))
 
 app.use(session({
   secret: 'keyboard cat',
