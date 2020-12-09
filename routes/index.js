@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const { postRegister } = require('../controllers/index'); 
+const { postRegister, postLogin,getLogout } = require('../controllers'); 
+const {errorHandler} = require('../midddleware');
 
 
 /* GET home page. */
@@ -13,16 +14,14 @@ router.get('/register',(req,res,next)=>{
   res.send('GET /REGISTER')
 })
 
-router.post('/register',postRegister)
+router.post('/register', errorHandler(postRegister))
 
 
 router.get('/login',(req,res,next)=>{
   res.send('get /login')
 })
 
-router.post('/login',(req,res,next)=> {
-  res.send('post /login')
-})
+router.post('/login',postLogin)
 
 
 router.get('/profile',(req,res,next)=>{
@@ -46,5 +45,7 @@ router.put('/forgot-pw',(req,res,next)=>{
 router.put('/reset-pw/:token',(req,res,next)=>{
   res.send('get /rest-pw/token')
 })
+
+router.get('/logout', getLogout)
 
 module.exports = router;
