@@ -30,7 +30,7 @@ router.get('/:id', postShow)
 
 router.get('/:id/edit',AsyncErrorHandler(postEdit))
 
-router.put('/:id',AsyncErrorHandler(postUpdate))
+router.put('/:id',upload.array('images',4),AsyncErrorHandler(postUpdate))
 
 
 router.delete('/:id',AsyncErrorHandler(postDestroy))
