@@ -7,7 +7,8 @@ const {
     postNew, 
     postCreate,
     postShow,
-    postEdit
+    postEdit,
+    postUpdate
 } = require('../controllers/posts')
 // /posts/ 
 router.get('/',AsyncErrorHandler(postIndex))
@@ -20,12 +21,9 @@ router.post('/', AsyncErrorHandler(postCreate))
 
 router.get('/:id', AsyncErrorHandler(postShow))
 
-router.get('/:id/edit',postEdit)
+router.get('/:id/edit',AsyncErrorHandler(postEdit))
 
-router.put('/:id',(req,res,next)=>{
-    res.send('update /post/:id')
-
-})
+router.put('/:id',AsyncErrorHandler(postUpdate))
 
 
 router.delete('/:id',(req,res,next)=>{
