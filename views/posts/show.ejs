@@ -6,5 +6,18 @@
 
 <div> desc? <%= post.description %></div>
 <div>  <%= post.location %></div>
+<div>
+    <% post.images.forEach(function(image) {%> 
+         
+        <img src="<%= image.url %>" alt="image" width="500px" height="500px">
+   <% }) %>   
+</div>
 
-<div><a href="/posts/<%= post.id %>/edit">edit post</a></div>
+<div>
+    <a href="/posts/<%= post.id %>/edit">edit post</a>
+</div>
+<div>
+    <form action="/posts/<%= post.id %>?_method=DELETE" method="post">
+        <input type="submit" value="Delete" />
+    </form>
+</div>
