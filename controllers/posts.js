@@ -1,6 +1,11 @@
 const Post = require('../models/post')
 const cloudinary = require('cloudinary')
 
+const mbxGeocoding =require('@mapbox/mapbox-sdk/services/geocoding')
+const geocodingClient = mbxGeocoding({
+    accessToken: process.env.MAPBOX_TOKEN
+})
+
 cloudinary.config({
     cloud_name: 'djul6ji5g',
     api_key: '372186682862111',
@@ -26,8 +31,14 @@ module.exports = {
                  public_id: image.public_id
              })   
             }
+
+          const response = await geocodingClient.forwardGeocode({
+                query: req.body.post.location,
+                limit: 1,
+          }).send()
+          req.body.post.coordinates = response.body.features[0].geometry.coordinates
           const post = await Post.create(req.body.post)
-          console.log(post);
+          
           res.redirect(`/posts/${post.id}`)
       },
       async postShow(req,res,next){
@@ -69,11 +80,20 @@ module.exports = {
                })
            } 
         }
-        console.log(req.body);
+        // update the location 
+        if(req.body.post.location!==post.location){
+           const response = await geocodingClient.forwardGeocode({
+                query: req.body.post.location,
+                limit: 1,
+          }).send()
+          post.coordinates = response.body.features[0].geometry.coordinates
+          post.location = req.body.post.location;
+        }
+      
         post.title = req.body.post.title;
         post.description = req.body.post.description;
         post.price = req.body.post.price;
-        post.location = req.body.post.location;
+ 
         post.save()
         // eliminar una iage seleccionada 
         // subir nuevas images

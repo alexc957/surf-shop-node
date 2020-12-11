@@ -36,6 +36,9 @@ db.on('error', console.error.bind(console,'connection error'))
 db.once('open', ()=> {
   console.log('we are connected');
 })
+
+//setup public assest dir 
+app.use(express.static('public'))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

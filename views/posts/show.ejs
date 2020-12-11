@@ -1,3 +1,28 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+
+<style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+        width: 700px;
+        height: 500px;
+  
+    }
+    .marker {
+    background-image: url('/images/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+  </style>
+
 <h1>
     <%= post.title %>
 </h1>
@@ -13,6 +38,8 @@
    <% }) %>   
 </div>
 
+<div id='map'></div> <!-- load the map -->
+
 <div>
     <a href="/posts/<%= post.id %>/edit">edit post</a>
 </div>
@@ -21,3 +48,37 @@
         <input type="submit" value="Delete" />
     </form>
 </div>
+
+
+<script>
+    var post = <%- JSON.stringify(post) %>
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleGM5NTciLCJhIjoiY2tpamI2eTZ0MDB5bTJza2FoOWVtbG10NSJ9.tNlxMrujdtiAb4jWvB1-mg';
+    
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: post.coordinates,
+      zoom: 3
+    });
+    
+    // code from the next step will go here!
+
+  
+
+
+
+// create a HTML element for our post location/marker
+var el = document.createElement('div');
+el.className = 'marker';
+
+// make a marker for our location and add to the map
+new mapboxgl.Marker(el)
+        .setLngLat(post.coordinates)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>'))
+        .addTo(map);
+;
+    
+    </script>
+
