@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 
 const createError = require('http-errors');
+const engine = require('ejs-mate');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -39,6 +40,8 @@ db.once('open', ()=> {
 
 //setup public assest dir 
 app.use(express.static('public'))
+// use ejs-locals for all ejs templates 
+app.engine('ejs',engine)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -64,6 +67,12 @@ app.use(passport.session())
 passport.use(User.createStrategy())
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+// midleware to set the title 
+app.use(function(req,res,next){
+  res.locals.title = 'Surf shop'
+  next();
+})
+
 
 // mount routes 
 app.use('/', indexRouter);
@@ -86,5 +95,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

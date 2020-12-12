@@ -1,3 +1,4 @@
+<% layout('layout/boilerplate') -%>  
 <h1>edit post!</h1>
 
 <form id="postEditForm" action="/posts/<%= post.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
@@ -29,7 +30,7 @@
     <input type="submit">
 </form>
 
-<script>
+<script src="/javascripts/post-edit.js">
     let postEditForm = document.getElementById('postEditForm');
     postEditForm.addEventListener('submit',(event)=> {
         let imageUpload = document.getElementById('imageUpload').files.length;

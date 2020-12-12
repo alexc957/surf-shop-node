@@ -16,10 +16,10 @@ module.exports = {
     async postIndex(req,res,next){
         const posts = await Post.find({})
       
-        res.render('posts/index', {posts})
+        res.render('posts/index', {posts, title:"Posts"})
     },
     postNew(req,res, next){
-        res.render('posts/new')
+        res.render('posts/new', {title: "new Post"})
       },
       async postCreate(req,res,next){
           // use req.body to create a new post 
@@ -43,11 +43,12 @@ module.exports = {
       },
       async postShow(req,res,next){
           const post = await Post.findById(req.params.id);
+          console.log(post);
           res.render('posts/show', {post})
       },
      async postEdit(req,res,next) {
          let post = await Post.findById(req.params.id)
-         res.render('posts/edit', {post});
+         res.render('posts/edit', {post, title: "edit post"});
      },
      // post update 
      async postUpdate(req,res,next){
