@@ -19,7 +19,8 @@ const session = require('express-session')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const posts = require('./routes/posts')
-const reviews = require('./routes/reviews')
+const reviews = require('./routes/reviews');
+
 
 const app = express();
 
@@ -67,9 +68,16 @@ app.use(passport.session())
 passport.use(User.createStrategy())
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-// midleware to set the title 
+// set local variables midleware to set the title 
 app.use(function(req,res,next){
-  res.locals.title = 'Surf shop'
+  res.locals.title = 'Surf shop';
+  //get the succes message
+  res.locals.success = req.session.success || '';
+  delete req.session.success 
+  // get the error messages
+  res.locals.error = req.session.error || '';
+  delete req.session.error;
+  // go to the next middleware function in the chain. 
   next();
 })
 
@@ -88,12 +96,15 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
+ /* res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error');*/
+ 
+  req.session.error = err.message;
+  res.redirect('back')
 });
 
 
