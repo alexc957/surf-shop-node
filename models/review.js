@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
-const passportLocalMongoose = require('passport-local-mongoose')
 const Schema = mongoose.Schema;
-
 const ReviewSchema = new Schema({
     body: String,
+    rating: Number,
 
     author: {
-        type: schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
 
 });
 
-UserSchema.plugin(passportLocalMongoose)
+// ReviewSchema.plugin(passportLocalMongoose)
 module.exports = mongoose.model('Review', ReviewSchema)

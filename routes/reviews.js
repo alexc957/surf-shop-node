@@ -1,16 +1,21 @@
-var express = require('express');
-const { route } = require('.');
-var router = express.Router({
+const express = require('express');
+const router = express.Router({
     mergeParams: true // access to the postiD 
 });
+
+const { AsyncErrorHandler } =  require('../midddleware/index');
+const {
+    reviewCreate,
+    reviewUpdate,
+    reviewDestroy
+}  = require('../controllers/reviews')
+
 // /reviews/ 
 
 
 
 
-router.post('/', (req,res, next)=>{
-    res.send('create /reviews')
-  })
+router.post('/', AsyncErrorHandler(reviewCreate))
 
 
 
