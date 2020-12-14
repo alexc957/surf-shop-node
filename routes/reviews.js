@@ -4,10 +4,7 @@ var router = express.Router({
     mergeParams: true // access to the postiD 
 });
 // /reviews/ 
-router.get('/',(req,res,next)=> {
-    res.send('INDEX /posts/:id/reviews')
 
-})
 
 
 
@@ -17,13 +14,6 @@ router.post('/', (req,res, next)=>{
 
 
 
-router.get('/:review_id',(req,res,next)=> {
-    res.send('get /post/:id/reviews/:review_id')
-})
-
-router.get('/:review_id/edit',(req,res,next)=>{
-    res.send('EDIT /reviews/:id/edit')
-})
 
 router.put('/:review_id',(req,res,next)=>{
     res.send('update /posts/:id/reviews/:review_id')
