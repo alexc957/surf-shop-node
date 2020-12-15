@@ -24,3 +24,11 @@ new mapboxgl.Marker(el)
         .addTo(map);
 ;
     
+
+$('.toggle-edit-form').on('click', function(){
+  // toggle the edit button text on click
+
+  $(this).text() ==='Edit'?  $(this).text('Cancel') : $(this).text('Edit')   
+  // toggle visibiliaty on the edit form 
+  $(this).siblings('.edit-review-form').toggle()
+})

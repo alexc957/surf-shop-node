@@ -3,7 +3,7 @@ const router = express.Router({
     mergeParams: true // access to the postiD 
 });
 
-const { AsyncErrorHandler } =  require('../midddleware/index');
+const { AsyncErrorHandler, isReviewAuthor } =  require('../midddleware/index');
 const {
     reviewCreate,
     reviewUpdate,
@@ -20,10 +20,7 @@ router.post('/', AsyncErrorHandler(reviewCreate))
 
 
 
-router.put('/:review_id',(req,res,next)=>{
-    res.send('update /posts/:id/reviews/:review_id')
-
-})
+router.put('/:review_id',isReviewAuthor,AsyncErrorHandler(reviewUpdate));
 
 
 router.delete('/:reviews_id',(req,res,next)=>{
