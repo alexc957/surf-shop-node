@@ -6,8 +6,14 @@ module.exports = {
     async reviewCreate(req,res,next){
       
       // find the post by id 
-      console.log('llegue aqui? ');
-      const post = await Post.findById(req.params.id);
+      
+      const post = await Post.findById(req.params.id).populate('reviews').exec();
+      let haveReview = post.reviews.find(review => review.author.equals(req.user._id));
+      if(haveReview) {
+        req.session.error = "Sorry you can only create one review per post"
+        return res.redirect(`/posts/${post.id}`)
+      }
+
 
       // create the review
       req.body.review.author = req.user._id;
@@ -34,6 +40,14 @@ module.exports = {
   
      
      async reviewDestroy(req,res,next){
+      console.log('delete?');
+       await Post.findByIdAndUpdate(req.params.id, {
+         $pull: { reviews: req.params.review_id }
+       });
+       console.log('delete?');
+       await Review.findByIdAndRemove(req.params.review_id);
+       req.session.success = "Delete a review"
+       res.redirect(`/posts/${req.params.id}`)
          
      }
 }

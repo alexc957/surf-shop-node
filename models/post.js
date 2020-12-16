@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require('passport-local-mongoose')
 const Schema = mongoose.Schema;
-
+const Review = require('./review')
 const PostSchema = new Schema({
     title: String,
     price: String,
@@ -22,6 +22,14 @@ const PostSchema = new Schema({
             ref: 'Review'
         }
     ]
+});
+
+PostSchema.pre('remove', async function() {
+    await Review.remove({
+        _id: {
+            $in: this.reviews
+        }
+    })
 });
 
 // UserSchema.plugin(passportLocalMongoose)
