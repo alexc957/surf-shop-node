@@ -1,42 +1,39 @@
 var express = require('express');
 const { route } = require('.');
 var router = express.Router();
+const multer = require('multer')
+const upload = multer({'dest':'uploads'}) // uploads dir is temp 
+const { AsyncErrorHandler } =require('../midddleware');
+
+const {
+    postIndex, 
+    postNew, 
+    postCreate,
+    postShow,
+    postEdit,
+    postUpdate,
+    postDestroy
+} = require('../controllers/posts')
 // /posts/ 
-router.get('/',(req,res,next)=> {
-    res.send('/posts')
+router.get('/',AsyncErrorHandler(postIndex))
 
-})
-
-router.get('/new', (req,res, next)=>{
-    res.send('/posts/new')
-  })
+router.get('/new', postNew)
 
 
-router.post('/', (req,res, next)=>{
-    res.send('create /posts')
-  })
 
-router.post('/', (req,res, next)=>{
-    res.send('create /posts')
-  })
-
-router.get('/:id',(req,res,next)=> {
-    res.send('get /post/:id')
-})
-
-router.get('/:id/edit',(req,res,next)=>{
-    res.send('EDIT /posts/:id/edit')
-})
-
-router.put('/:id',(req,res,next)=>{
-    res.send('update /post/:id')
-
-})
+router.post('/', upload.array('images',4),AsyncErrorHandler(postCreate)) //   
 
 
-router.delete('/:id',(req,res,next)=>{
-    res.send('delete /posts/:id')
-})
+router.get('/:id', postShow)
+
+
+
+router.get('/:id/edit',AsyncErrorHandler(postEdit))
+
+router.put('/:id',upload.array('images',4),AsyncErrorHandler(postUpdate))
+
+
+router.delete('/:id',AsyncErrorHandler(postDestroy))
 
 
 
