@@ -8,7 +8,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const methdoOverride  = require('method-override')
+//const seedPosts = require('./seeds');
 
+//seedPosts()
 
 const bodyParser = require('body-parser')
 const passport = require('passport');
@@ -26,7 +28,7 @@ const app = express();
 
 //connect to the database 
 mongoose.connect(
-  'mongodb+srv://m001-student:m001-mongodb-basics@sandbox.i2bwj.mongodb.net/surf-shop?retryWrites=true&w=majority', 
+  process.env.MONGO_URI, 
   {
     useNewUrlParser: true, 
     useUnifiedTopology: true,

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const passportLocalMongoose = require('passport-local-mongoose')
 const Schema = mongoose.Schema;
 const Review = require('./review')
+const mongoosePaginate = require('mongoose-paginate')
 const PostSchema = new Schema({
     title: String,
     price: String,
@@ -33,4 +34,5 @@ PostSchema.pre('remove', async function() {
 });
 
 // UserSchema.plugin(passportLocalMongoose)
+PostSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Post', PostSchema)

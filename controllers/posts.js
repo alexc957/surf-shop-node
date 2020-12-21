@@ -15,7 +15,10 @@ cloudinary.config({
 
 module.exports = {
     async postIndex(req,res,next){
-        const posts = await Post.find({})
+        const posts = await Post.paginate({}, {
+            page: req.query.page || 1,
+            limit: 10,
+        })
 
         res.render('posts/index', {posts, title:"Posts"})
     },
