@@ -57,8 +57,9 @@ module.exports = {
                 path: 'author',
                 model: 'User'
             }
-		});
-		res.render('posts/show', { post, currentUser: req.user });
+        });
+        const floorRating = post.calculateAvgRating()
+		res.render('posts/show', { post, currentUser: req.user, floorRating });
  
       },
      async postEdit(req,res,next) {
