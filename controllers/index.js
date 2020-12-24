@@ -1,8 +1,14 @@
 const User = require('../models/user');
+const Post = require('../models/post');
 const passport = require('passport');
 
 
 module.exports = {
+  // GET / 
+    async landingPage(req,res,next){
+      const posts = await Post.find({})
+      res.render('index',{posts, title: 'Surf shop - Home',mapBoxToken: process.env.MAPBOX_TOKEN})
+    },
     async postRegister(req,res,next) {
 
         const newUser = new User({

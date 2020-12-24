@@ -20,7 +20,7 @@ module.exports = {
             limit: 10,
         })
 
-        res.render('posts/index', {posts, title:"Posts"})
+        res.render('posts/index', {posts, title:"Posts", mapBoxToken : process.env.MAPBOX_TOKEN})
     },
     postNew(req,res, next){
         
