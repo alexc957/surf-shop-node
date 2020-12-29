@@ -1,8 +1,11 @@
 var express = require('express');
-const { route } = require('.');
+
 var router = express.Router();
-const multer = require('multer')
-const upload = multer({'dest':'uploads'}) // uploads dir is temp 
+const multer = require('multer');
+
+const { cloudinary, storage } = require('../cloudinary')
+const upload = multer({ storage })
+ // uploads dir is temp 
 const { AsyncErrorHandler } =require('../midddleware');
 
 const {

@@ -1,4 +1,4 @@
-var map = new mapboxgl.Map({
+var map = new mapboxgl.Map({ // creates the map
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     center: [-98.55562, 39.809734],
