@@ -19,11 +19,11 @@ module.exports = {
             limit: 10,
         })
 
-        res.render('posts/index', {posts, title:"Posts", mapBoxToken })
+        res.render('posts/index', {posts, title:"Posts", mapBoxToken, currentUser : req.user })
     },
     postNew(req,res, next){
         
-        res.render('posts/new', {title: "new Post"})
+        res.render('posts/new', {title: "new Post", currentUser: req.user})
       },
       async postCreate(req,res,next){
           // use req.body to create a new post 
@@ -62,7 +62,7 @@ module.exports = {
         });
         const floorRating = post.calculateAvgRating()
         
-		res.render('posts/show', { post, currentUser: req.user, floorRating, mapBoxToken });
+		res.render('posts/show', { post, floorRating, mapBoxToken });
  
       },
      async postEdit(req,res,next) {

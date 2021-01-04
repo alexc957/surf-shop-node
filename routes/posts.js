@@ -6,7 +6,7 @@ const multer = require('multer');
 const { cloudinary, storage } = require('../cloudinary')
 const upload = multer({ storage })
  // uploads dir is temp 
-const { AsyncErrorHandler } =require('../midddleware');
+const { AsyncErrorHandler, isLoggedIn } =require('../midddleware');
 
 const {
     postIndex, 
@@ -20,14 +20,14 @@ const {
 // /posts/ 
 router.get('/',AsyncErrorHandler(postIndex))
 
-router.get('/new', postNew)
+router.get('/new', isLoggedIn,postNew)
 
 
 
-router.post('/', upload.array('images',4),AsyncErrorHandler(postCreate)) //   
+router.post('/', isLoggedIn,upload.array('images',4),AsyncErrorHandler(postCreate)) //   
 
 
-router.get('/:id', postShow)
+router.get('/:id', AsyncErrorHandler(postShow))
 
 
 

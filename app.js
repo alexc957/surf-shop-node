@@ -72,12 +72,12 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 // set local variables midleware to set the title 
 app.use(function(req,res,next){
- req.user = {
+ /*req.user = {
     '_id':'5fd0f3520bdede0ba408be03',
     'username': 'juan'
-  }
+  }*/
 
-  //req.locals.currentUser =req.user;
+  res.locals.currentUser =req.user;
   res.locals.title = 'Surf shop';
   //get the succes message
   res.locals.success = req.session.success || '';
