@@ -30,7 +30,7 @@
 </div>
 
 <div id='map'></div> <!-- load the map -->
-
+<% if(currentUser && post.author.equals(currentUser._id)) {%> 
 <div>
     <a href="/posts/<%= post.id %>/edit">edit post</a>
 </div>
@@ -39,8 +39,9 @@
         <input type="submit" value="Delete" />
     </form>
 </div>
-
+<% } %> 
 <h2>Reviews</h2>
+<% if(currentUser){ %> 
 <h3>create review</h3>
 <form action="/posts/<%= post.id %>/reviews" method="POST">
     <textarea name="review[body]"></textarea>
@@ -63,7 +64,9 @@
       </fieldset>
     <input type="submit" />
 </form>
-
+<% } else { %>
+    <h2><a href="/login?returnTo=true?">Create a review</a></h2>
+<% } %>  
 <h3>Reviews</h3>
 <!-- display all reviews -->
 <% post.reviews.forEach(function(review) { %>
@@ -72,7 +75,7 @@
         Rating: <%= review.rating %>
         author: <%= review.author.username %>
     </div>
-    <% if(review.author.equals(currentUser._id))  {%> 
+    <% if(currentUser && review.author.equals(currentUser._id))  {%> 
     <div >
         <button class="toggle-edit-form">Edit</button>
         <form class="edit-review-form" method="POST" action="/posts/<%= post.id %>/reviews/<%= review.id %>?_method=PUT">

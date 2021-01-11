@@ -6,7 +6,7 @@ const multer = require('multer');
 const { cloudinary, storage } = require('../cloudinary')
 const upload = multer({ storage })
  // uploads dir is temp 
-const { AsyncErrorHandler, isLoggedIn } =require('../midddleware');
+const { AsyncErrorHandler, isLoggedIn, isAuthor } =require('../midddleware');
 
 const {
     postIndex, 
@@ -31,12 +31,12 @@ router.get('/:id', AsyncErrorHandler(postShow))
 
 
 
-router.get('/:id/edit',AsyncErrorHandler(postEdit))
+router.get('/:id/edit',isLoggedIn,AsyncErrorHandler(isAuthor) ,postEdit)
 
-router.put('/:id',upload.array('images',4),AsyncErrorHandler(postUpdate))
+router.put('/:id',isLoggedIn,AsyncErrorHandler(isAuthor),upload.array('images',4),AsyncErrorHandler(postUpdate))
 
 
-router.delete('/:id',AsyncErrorHandler(postDestroy))
+router.delete('/:id',isLoggedIn,AsyncErrorHandler(isAuthor),AsyncErrorHandler(postDestroy))
 
 
 
