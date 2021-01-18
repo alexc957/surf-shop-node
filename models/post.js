@@ -66,4 +66,6 @@ PostSchema.methods.calculateAvgRating = function () {
 }
 // UserSchema.plugin(passportLocalMongoose)
 PostSchema.plugin(mongoosePaginate);
+
+ PostSchema.index({ geometry: '2dsphere' }); // 
 module.exports = mongoose.model('Post', PostSchema)

@@ -4,7 +4,8 @@ const { cloudinary } = require('../cloudinary');
 const mbxGeocoding =require('@mapbox/mapbox-sdk/services/geocoding')
 
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const { reviewCreate } = require('./reviews')
+
+
 const geocodingClient = mbxGeocoding({
     accessToken: mapBoxToken
 })
@@ -14,10 +15,16 @@ const geocodingClient = mbxGeocoding({
 
 module.exports = {
     async postIndex(req,res,next){
+        const {dbQuery} = res.locals;
+        delete res.locals.dbQuery;
         const posts = await Post.paginate({}, {
             page: req.query.page || 1,
             limit: 10,
+            sort: '-_id'
         })
+        if(!posts.docs.length && res.locals.dbQuery){
+            res.locals.error = 'No result match that query';
+        }
 
         res.render('posts/index', {posts, title:"Posts", mapBoxToken, currentUser : req.user })
     },
@@ -60,7 +67,8 @@ module.exports = {
                 model: 'User'
             }
         });
-        const floorRating = post.calculateAvgRating()
+        //const floorRating = post.calculateAvgRating()
+        const floorRating = post.avgRating;
         
 		res.render('posts/show', { post, floorRating, mapBoxToken });
  

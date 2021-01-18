@@ -56,6 +56,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methdoOverride('_method'))
 
+// add moment to everyview 
+app.locals.moment = require('moment');
+
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -110,7 +113,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');*/
- 
+  console.log(err);
   req.session.error = err.message;
   res.redirect('back')
 });
